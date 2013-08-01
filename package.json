@@ -14,11 +14,11 @@
     "node": ">=0.8.0"
   },
   "directories": {
-    "lib": "lib"
+    "lib": "./release/npm/lib"
   },
-  "main": "./lib/csslint-node.js",
+  "main": "./release/npm/lib/csslint-node.js",
   "bin": {
-    "csslint": "./cli.js"
+    "csslint": "./release/npm/cli.js"
   },
   "scripts": {
     "test": "grunt test"
