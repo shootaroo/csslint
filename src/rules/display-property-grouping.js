@@ -101,7 +101,7 @@ CSSLint.addRule({
         parser.addListener("property", function(event){
             var name = event.property.text.toLowerCase();
 
-            if (propertiesToCheck[name]){
+            if (propertiesToCheck[name] && !event.property.hack){
                 properties[name] = { value: event.value.text, line: event.property.line, col: event.property.col };                    
             }
         });
