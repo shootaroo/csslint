@@ -42,7 +42,7 @@
          * @return {String} to prepend before all results
          */
         startFormat: function(){
-            return "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle>";
+            return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<checkstyle>\n";
         },
 
         /**
@@ -60,7 +60,7 @@
          * @return {String} The error message.
          */
         readError: function(filename, message) {
-            return "<file name=\"" + xmlEscape(filename) + "\"><error line=\"0\" column=\"0\" severty=\"error\" message=\"" + xmlEscape(message) + "\"></error></file>";
+            return "\t<file name=\"" + xmlEscape(filename) + "\">\n\t\t<error line=\"0\" column=\"0\" severty=\"error\" message=\"" + xmlEscape(message) + "\"></error>\n\t</file>\n";
         },
 
         /**
@@ -91,15 +91,15 @@
 
 
             if (messages.length > 0) {
-                output.push("<file name=\""+filename+"\">");
+                output.push("\t<file name=\""+filename+"\">\n");
                 CSSLint.Util.forEach(messages, function (message, i) {
                     //ignore rollups for now
                     if (!message.rollup) {
-                      output.push("<error line=\"" + message.line + "\" column=\"" + message.col + "\" severity=\"" + message.type + "\"" +
-                          " message=\"" + xmlEscape(message.message) + "\" source=\"" + generateSource(message.rule) +"\"/>");
+                      output.push("\t\t<error line=\"" + message.line + "\" column=\"" + message.col + "\" severity=\"" + message.type + "\"" +
+                          " message=\"" + xmlEscape(message.message) + "\" source=\"" + generateSource(message.rule) +"\"/>\n");
                     }
                 });
-                output.push("</file>");
+                output.push("\t</file>\n");
             }
 
             return output.join("");
