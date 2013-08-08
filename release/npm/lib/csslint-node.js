@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 */
-/* Build: v0.9.10 01-August-2013 03:18:59 */
+/* Build: v0.9.10 08-August-2013 03:07:40 */
 var parserlib = require("parserlib");
 /**
  * Main CSSLint object.
@@ -2418,7 +2418,7 @@ CSSLint.addRule({
          * @return {String} to prepend before all results
          */
         startFormat: function(){
-            return "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle>";
+            return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<checkstyle>\n";
         },
 
         /**
@@ -2436,7 +2436,7 @@ CSSLint.addRule({
          * @return {String} The error message.
          */
         readError: function(filename, message) {
-            return "<file name=\"" + xmlEscape(filename) + "\"><error line=\"0\" column=\"0\" severty=\"error\" message=\"" + xmlEscape(message) + "\"></error></file>";
+            return "\t<file name=\"" + xmlEscape(filename) + "\">\n\t\t<error line=\"0\" column=\"0\" severty=\"error\" message=\"" + xmlEscape(message) + "\"></error>\n\t</file>\n";
         },
 
         /**
@@ -2458,24 +2458,24 @@ CSSLint.addRule({
              * @return rule source as {String}
              */
             var generateSource = function(rule) {
-                if (!rule || !('name' in rule)) {
+                if (!rule || !('id' in rule)) {
                     return "";
                 }
-                return 'net.csslint.' + rule.name.replace(/\s/g,'');
+                return 'net.csslint.' + rule.id;
             };
 
 
 
             if (messages.length > 0) {
-                output.push("<file name=\""+filename+"\">");
+                output.push("\t<file name=\""+filename+"\">\n");
                 CSSLint.Util.forEach(messages, function (message, i) {
                     //ignore rollups for now
                     if (!message.rollup) {
-                      output.push("<error line=\"" + message.line + "\" column=\"" + message.col + "\" severity=\"" + message.type + "\"" +
-                          " message=\"" + xmlEscape(message.message) + "\" source=\"" + generateSource(message.rule) +"\"/>");
+                      output.push("\t\t<error line=\"" + message.line + "\" column=\"" + message.col + "\" severity=\"" + message.type + "\"" +
+                          " message=\"" + xmlEscape(message.message) + "\" source=\"" + generateSource(message.rule) +"\"/>\n");
                     }
                 });
-                output.push("</file>");
+                output.push("\t</file>\n");
             }
 
             return output.join("");
