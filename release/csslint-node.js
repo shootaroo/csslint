@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 */
-/* Build: v0.9.10 08-August-2013 03:07:40 */
+/* Build: v0.10.0 15-August-2013 01:07:22 */
 var parserlib = require("parserlib");
 /**
  * Main CSSLint object.
@@ -37,7 +37,7 @@ var CSSLint = (function(){
         embeddedRuleset = /\/\*csslint([^\*]*)\*\//,
         api             = new parserlib.util.EventTarget();
 
-    api.version = "0.9.10";
+    api.version = "0.10.0";
 
     //-------------------------------------------------------------------------
     // Rule Management

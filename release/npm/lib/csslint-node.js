@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 */
-/* Build: v0.9.10 08-August-2013 03:07:40 */
+/* Build: v0.10.0 15-August-2013 01:07:22 */
 var parserlib = require("parserlib");
 /**
  * Main CSSLint object.
@@ -37,7 +37,7 @@ var CSSLint = (function(){
         embeddedRuleset = /\/\*csslint([^\*]*)\*\//,
         api             = new parserlib.util.EventTarget();
 
-    api.version = "0.9.10";
+    api.version = "0.10.0";
 
     //-------------------------------------------------------------------------
     // Rule Management
@@ -1013,7 +1013,7 @@ CSSLint.addRule({
         parser.addListener("property", function(event){
             var name = event.property.text.toLowerCase();
 
-            if (propertiesToCheck[name] && !event.property.hack){
+            if (propertiesToCheck[name]){
                 properties[name] = { value: event.value.text, line: event.property.line, col: event.property.col };                    
             }
         });
@@ -2418,7 +2418,7 @@ CSSLint.addRule({
          * @return {String} to prepend before all results
          */
         startFormat: function(){
-            return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<checkstyle>\n";
+            return "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle>";
         },
 
         /**
@@ -2436,7 +2436,7 @@ CSSLint.addRule({
          * @return {String} The error message.
          */
         readError: function(filename, message) {
-            return "\t<file name=\"" + xmlEscape(filename) + "\">\n\t\t<error line=\"0\" column=\"0\" severty=\"error\" message=\"" + xmlEscape(message) + "\"></error>\n\t</file>\n";
+            return "<file name=\"" + xmlEscape(filename) + "\"><error line=\"0\" column=\"0\" severty=\"error\" message=\"" + xmlEscape(message) + "\"></error></file>";
         },
 
         /**
@@ -2458,24 +2458,24 @@ CSSLint.addRule({
              * @return rule source as {String}
              */
             var generateSource = function(rule) {
-                if (!rule || !('id' in rule)) {
+                if (!rule || !('name' in rule)) {
                     return "";
                 }
-                return 'net.csslint.' + rule.id;
+                return 'net.csslint.' + rule.name.replace(/\s/g,'');
             };
 
 
 
             if (messages.length > 0) {
-                output.push("\t<file name=\""+filename+"\">\n");
+                output.push("<file name=\""+filename+"\">");
                 CSSLint.Util.forEach(messages, function (message, i) {
                     //ignore rollups for now
                     if (!message.rollup) {
-                      output.push("\t\t<error line=\"" + message.line + "\" column=\"" + message.col + "\" severity=\"" + message.type + "\"" +
-                          " message=\"" + xmlEscape(message.message) + "\" source=\"" + generateSource(message.rule) +"\"/>\n");
+                      output.push("<error line=\"" + message.line + "\" column=\"" + message.col + "\" severity=\"" + message.type + "\"" +
+                          " message=\"" + xmlEscape(message.message) + "\" source=\"" + generateSource(message.rule) +"\"/>");
                     }
                 });
-                output.push("\t</file>\n");
+                output.push("</file>");
             }
 
             return output.join("");
