@@ -37,7 +37,7 @@
     "url": "https://github.com/stubbornella/csslint.git"
   },
   "dependencies": {
-    "parserlib": "~0.2.2"
+    "parserlib": "https://github.com/shootaroo/parser-lib/tarball/custom"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
