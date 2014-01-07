@@ -51,6 +51,11 @@
             Assert.areEqual("width can't be used with display: inline.", result.messages[0].message);
         },
 
+        "Ignore hack properties": function(){
+            var result = CSSLint.verify(".foo { width: 100px; *display: inline; }", { "display-property-grouping": 1 });
+            Assert.areEqual(0, result.messages.length);
+        },
+
         "Margin with inline should result in a warning": function(){
             var result = CSSLint.verify(".foo { margin: 100px; display: inline; }", { "display-property-grouping": 1 });
             Assert.areEqual(1, result.messages.length);
